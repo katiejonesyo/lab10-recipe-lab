@@ -73,8 +73,6 @@ describe('recipe-lab routes', () => {
         expect(res.body).toEqual(recipe)
   });
 
-
-
   it('updates a recipe by id', async() => {
     const recipe = await Recipe.insert({
       name: 'cookies',

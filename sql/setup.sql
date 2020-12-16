@@ -5,3 +5,4 @@ CREATE TABLE recipes (
   name TEXT NOT NULL,
   directions TEXT[]
 );
+
