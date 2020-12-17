@@ -14,36 +14,41 @@ describe("log-lab routes", () => {
     return pool.end();
   });
 
-  it("creates a log", async () => {
-    const recipe = await request(app)
-      .post("/api/v1/recipes")
+  it('creates a log', async() => {
+    const recipe = await Recipe.insert({
+      name: 'cookies',
+      directions: [
+        'preheat oven to 375',
+        'mix ingredients',
+        'put dough on cookie sheet',
+        'bake for 10 minutes'
+      ],
+      ingredients: [
+        {
+          name: 'flour', 
+          measurement: 'cup', 
+          amount: 1
+        }
+      ]
+    });
+  
+    return request(app)
+      .post('/api/v1/logs')
       .send({
-        name: "cookies",
-        directions: [
-          "preheat oven to 375",
-          "mix ingredients",
-          "put dough on cookie sheet",
-          "bake for 10 minutes",
-        ],
+        dateOfEvent: 'January 16, 2020',
+        notes: 'test',
+        rating: 4,
+        recipeId: recipe.id
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          id: expect.any(String),
+          dateOfEvent: expect.any(String),
+          notes: 'test',
+          rating: 4,
+          recipeId: recipe.id
+        });
       });
-
-    const logs = await request(app).post("/api/v1/logs")
-    .send({
-      recipeId: recipe.id,
-      dateOfEvent: "January 16th, 2020",
-      notes: "These cookies were terrible.",
-      rating: 0,
-    });
-
-    const res = await request(app).get(`/api/v1/logs/${logs.body.id}`);
-
-    expect(res.body).toEqual({
-      id: expect.any(String),
-      recipeId: null,
-      dateOfEvent: "January 16th, 2020",
-      notes: "These cookies were terrible.",
-      rating: 0,
-    });
   });
 
   it("gets all logs", async () => {
@@ -181,3 +186,5 @@ describe("log-lab routes", () => {
       .then((res) => expect(res.body).toEqual(log.body));
   });
 });
+
+
