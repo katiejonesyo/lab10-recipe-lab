@@ -15,3 +15,5 @@ CREATE TABLE logs (
   notes TEXT NOT NULL,
   rating INTEGER NOT NULL
 );
+
+
