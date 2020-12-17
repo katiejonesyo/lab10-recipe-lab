@@ -25,8 +25,8 @@ describe("log-lab routes", () => {
       ],
       ingredients: [
         {
-          name: 'flour', 
-          measurement: 'cup', 
+          name: 'chocolate chips', 
+          measurement: '1.5 cup', 
           amount: 1
         }
       ]
